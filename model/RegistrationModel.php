@@ -24,7 +24,7 @@ class RegistrationModel
 
         // stop registration flow if registrationInputValidation() returns false (= anything breaks the input check rules)
         //I have now removed (Request::post('captcha'), as a parameter
-        $validation_result = self::registrationInputValidation( $user_name, $user_password_new, $user_password_repeat, $user_email, $user_email_repeat);
+        $validation_result = self::registrationInputValidation($user_name, $user_password_new, $user_password_repeat, $user_email, $user_email_repeat);
         if (!$validation_result) {
             return false;
         }
@@ -80,6 +80,10 @@ class RegistrationModel
         /*self::rollbackRegistrationByUserId($user_id);
         Session::add('feedback_negative', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_FAILED'));
         return false;*/
+
+        // registration successful (email verification disabled)
+        Session::add('feedback_positive', Text::get('FEEDBACK_ACCOUNT_SUCCESSFULLY_CREATED'));
+        return true;
     }
 
 
@@ -110,7 +114,7 @@ class RegistrationModel
         }*/
 
         // if username, email and password are all correctly validated, but make sure they all run on first sumbit
-        if (self::validateUserName($user_name) AND self::validateUserEmail($user_email, $user_email_repeat) AND self::validateUserPassword($user_password_new, $user_password_repeat) AND $return) {
+        if (self::validateUserName($user_name) and self::validateUserEmail($user_email, $user_email_repeat) and self::validateUserPassword($user_password_new, $user_password_repeat) and $return) {
             return true;
         }
 
@@ -179,7 +183,7 @@ class RegistrationModel
      */
     public static function validateUserPassword($user_password_new, $user_password_repeat)
     {
-        if (empty($user_password_new) OR empty($user_password_repeat)) {
+        if (empty($user_password_new) or empty($user_password_repeat)) {
             Session::add('feedback_negative', Text::get('FEEDBACK_PASSWORD_FIELD_EMPTY'));
             return false;
         }
@@ -217,20 +221,20 @@ class RegistrationModel
         $sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type, user_active)
                     VALUES (:user_name, :user_password_hash, :user_email, :user_creation_timestamp, :user_activation_hash, :user_provider_type, 1)";
         $query = $database->prepare($sql);
-        $query->execute(array(':user_name' => $user_name,
-                              ':user_password_hash' => $user_password_hash,
-                              ':user_email' => $user_email,
-                              ':user_creation_timestamp' => $user_creation_timestamp,
-                              ':user_activation_hash' => $user_activation_hash,
-                              ':user_provider_type' => 'DEFAULT'));
+        $query->execute(array(
+            ':user_name' => $user_name,
+            ':user_password_hash' => $user_password_hash,
+            ':user_email' => $user_email,
+            ':user_creation_timestamp' => $user_creation_timestamp,
+            ':user_activation_hash' => $user_activation_hash,
+            ':user_provider_type' => 'DEFAULT'
+        ));
         $count =  $query->rowCount();
         if ($count == 1) {
             return true;
         }
 
         return false;
-
-
     }
 
     /**
@@ -260,18 +264,22 @@ class RegistrationModel
     public static function sendVerificationEmail($user_id, $user_email, $user_activation_hash)
     {
         $body = Config::get('EMAIL_VERIFICATION_CONTENT') . Config::get('URL') . Config::get('EMAIL_VERIFICATION_URL')
-                . '/' . urlencode($user_id) . '/' . urlencode($user_activation_hash);
+            . '/' . urlencode($user_id) . '/' . urlencode($user_activation_hash);
 
         $mail = new Mail;
-        $mail_sent = $mail->sendMail($user_email, Config::get('EMAIL_VERIFICATION_FROM_EMAIL'),
-            Config::get('EMAIL_VERIFICATION_FROM_NAME'), Config::get('EMAIL_VERIFICATION_SUBJECT'), $body
+        $mail_sent = $mail->sendMail(
+            $user_email,
+            Config::get('EMAIL_VERIFICATION_FROM_EMAIL'),
+            Config::get('EMAIL_VERIFICATION_FROM_NAME'),
+            Config::get('EMAIL_VERIFICATION_SUBJECT'),
+            $body
         );
 
         if ($mail_sent) {
             Session::add('feedback_positive', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_SUCCESSFUL'));
             return true;
         } else {
-            Session::add('feedback_negative', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_ERROR') . $mail->getError() );
+            Session::add('feedback_negative', Text::get('FEEDBACK_VERIFICATION_MAIL_SENDING_ERROR') . $mail->getError());
             return false;
         }
     }

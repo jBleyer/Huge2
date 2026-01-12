@@ -221,16 +221,29 @@ class RegistrationModel
         $sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type, user_active)
                     VALUES (:user_name, :user_password_hash, :user_email, :user_creation_timestamp, :user_activation_hash, :user_provider_type, 1)";
         $query = $database->prepare($sql);
-        $query->execute(array(
-            ':user_name' => $user_name,
-            ':user_password_hash' => $user_password_hash,
-            ':user_email' => $user_email,
-            ':user_creation_timestamp' => $user_creation_timestamp,
-            ':user_activation_hash' => $user_activation_hash,
-            ':user_provider_type' => 'DEFAULT'
-        ));
-        $count =  $query->rowCount();
-        if ($count == 1) {
+
+        try {
+            $success = $query->execute(array(
+                ':user_name' => $user_name,
+                ':user_password_hash' => $user_password_hash,
+                ':user_email' => $user_email,
+                ':user_creation_timestamp' => $user_creation_timestamp,
+                ':user_activation_hash' => $user_activation_hash,
+                ':user_provider_type' => 'DEFAULT'
+            ));
+        } catch (PDOException $e) {
+            Session::add('feedback_negative', Text::get('FEEDBACK_ACCOUNT_CREATION_FAILED') . ' DB error: ' . $e->getMessage());
+            return false;
+        }
+
+        // For some PDO drivers rowCount() may not return the number of inserted rows for INSERT statements,
+        // so prefer checking lastInsertId() or the execution success flag.
+        if ($success && $database->lastInsertId()) {
+            return true;
+        }
+
+        // as a fallback, if execute returned true we assume success
+        if ($success) {
             return true;
         }
 

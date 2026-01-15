@@ -23,7 +23,6 @@
                 <?php foreach ($this->users as $user) { ?>
                 <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
 
-                    <!-- <td><?= $user->user_id; ?></td>-->
                     <td class="avatar">
                         <?php if (isset($user->user_avatar_link)) { ?>
                         <a href="<?= Config::get('URL') . 'addFriends/showProfile/' . $user->user_id; ?>">
@@ -38,7 +37,6 @@
 
                     <td>
                         <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
-                        <?php $url = Config::get('URL') . 'addFriends/index/' ?>
 
                         <form action="index?userId=<?= $user->user_id ?>" method="post">
                             <button name="befriend" type="submit" style="background-color: green;">befriend</button>
@@ -63,12 +61,8 @@ $user_id = '';
 if (
     isset($_REQUEST['befriend'])
 ) {
-    echo "lmao";
+    //echo "lmao";
     $user_id = $_GET['userId'];
     FriendModel::befriendUser($user_id);
 }
-/*if (isset($_SERVER['REQUEST_METHOD']) === 'POST') {
-    //Hier sql statement
-    echo "i need";
-    //FriendModel::befriendUser($user->user_id);
-}*/ ?>
+?>

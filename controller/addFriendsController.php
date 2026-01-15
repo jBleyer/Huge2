@@ -1,6 +1,6 @@
 <?php
 
-class ContactsController extends Controller
+class addFriendsController extends Controller
 {
     /**
      * Construct this object by extending the basic Controller class
@@ -19,7 +19,7 @@ class ContactsController extends Controller
     public function index()
     {
         $this->View->render(
-            'contacts/index',
+            'addFriends/index',
             array(
                 'users' => UserModel::getPublicProfilesOfAllUsers()
             )
@@ -27,7 +27,7 @@ class ContactsController extends Controller
     }
 
 
-
+// I will only modify one (1!) showProfile in contacts/showProfile (I have the original in ProfileController/showProfile)
     /**
      * This method controls what happens when you move to /contacts/showProfile in your app.
      * Shows the (public) details of the selected user.

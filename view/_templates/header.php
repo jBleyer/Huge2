@@ -52,6 +52,13 @@
                     <a href="<?php echo Config::get('URL'); ?>contacts/index">Contacts</a>
                 </li>
 
+                <!-- new navigation item for my addFriends list for logged in users -->
+                <li <?php if (View::checkForActiveController($filename, "addFriends")) {
+                        echo ' class="active" ';
+                    } ?>>
+                    <a href="<?php echo Config::get('URL'); ?>addFriends/index">Add as Friends</a>
+                </li>
+
 
                 <?php } else { ?>
                 <!-- for not logged in users -->

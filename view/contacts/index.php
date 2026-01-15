@@ -20,7 +20,12 @@
                         <td>Friend actions</td>
                     </tr>
                 </thead>
+
                 <?php foreach ($this->users as $user) { ?>
+
+                <?php if ($user->is_friend == true) {
+                    ?>
+
                 <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
                     <!-- <td><?= $user->user_id; ?></td>-->
                     <td class="avatar">
@@ -29,8 +34,6 @@
                             <img src="<?= $user->user_avatar_link; ?>" /></a>
                         <?php } ?>
                     </td>
-
-
                     <td><?= $user->user_name; ?></td>
                     <td><?= $user->user_email; ?></td>
                     <td>
@@ -45,6 +48,7 @@
                         <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Profile</a>
                     </td>-->
                 </tr>
+                <?php } ?>
                 <?php } ?>
             </table>
         </div>

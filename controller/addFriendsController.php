@@ -1,6 +1,6 @@
 <?php
 
-class addFriendsController extends Controller
+class AddFriendsController extends Controller
 {
     /**
      * Construct this object by extending the basic Controller class

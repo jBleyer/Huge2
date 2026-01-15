@@ -53,6 +53,7 @@
     </div>
 </div>
 
+<!-- I do not know how i can make php recognize a button press to save my life, so now I have to work with this. Good luck! -->
 <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB -->
 <?php
 

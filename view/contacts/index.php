@@ -34,7 +34,11 @@
                     <td><?= $user->user_name; ?></td>
                     <td><?= $user->user_email; ?></td>
                     <td>
-                        <button name="delete" style="background-color: #df2a3c;">unfriend</button>
+                        <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
+                        <form action="index?userId=<?= $user->user_id ?>" method="post">
+                            <button name="unfriend" style="background-color: #df2a3c;">unfriend</button>
+                        </form>
+
                     </td>
                     <!-- <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>-->
                     <!-- <td>
@@ -46,3 +50,18 @@
         </div>
     </div>
 </div>
+
+<!-- I do not know how i can make php recognize a button press to save my life, so now I have to work with this. Good luck! -->
+<!-- If unfriend button is pressed change the isFriend attribute to false, where the Profile id is in DB -->
+<?php
+
+$user_id = '';
+
+if (
+    isset($_REQUEST['unfriend'])
+) {
+    //echo "lmao";
+    $user_id = $_GET['userId'];
+    FriendModel::unfriendUser($user_id);
+}
+?>

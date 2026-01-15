@@ -1,5 +1,11 @@
 <div class="container">
-    <h1>Admin/index</h1>
+    <!-- link to register user (only visible to admins) -->
+    <h1>
+        Admin/index
+        <span style="margin-left: 50%">
+            <a href="<?= Config::get('URL') ?>"> register new user</a>
+        </span>
+    </h1>
 
     <div class="box">
 
@@ -13,26 +19,26 @@
             or suspend a user.
         </div>
         <div>
-            <table class="overview-table">
+            <table class=" overview-table">
                 <thead>
-                <tr>
-                    <td>Id</td>
-                    <td>Avatar</td>
-                    <td>Username</td>
-                    <td>User's email</td>
-                    <td>Activated ?</td>
-                    <td>Link to user's profile</td>
-                    <td>suspension Time in days</td>
-                    <td>Soft delete</td>
-                    <td>Submit</td>
-                </tr>
+                    <tr>
+                        <td>Id</td>
+                        <td>Avatar</td>
+                        <td>Username</td>
+                        <td>User's email</td>
+                        <td>Activated ?</td>
+                        <td>Link to user's profile</td>
+                        <td>suspension Time in days</td>
+                        <td>Soft delete</td>
+                        <td>Submit</td>
+                    </tr>
                 </thead>
                 <?php foreach ($this->users as $user) { ?>
                     <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
                         <td><?= $user->user_id; ?></td>
                         <td class="avatar">
                             <?php if (isset($user->user_avatar_link)) { ?>
-                                <img src="<?= $user->user_avatar_link; ?>"/>
+                                <img src="<?= $user->user_avatar_link; ?>" />
                             <?php } ?>
                         </td>
                         <td><?= $user->user_name; ?></td>
@@ -43,7 +49,8 @@
                         </td>
                         <form action="<?= config::get("URL"); ?>admin/actionAccountSettings" method="post">
                             <td><input type="number" name="suspension" /></td>
-                            <td><input type="checkbox" name="softDelete" <?php if ($user->user_deleted) { ?> checked <?php } ?> /></td>
+                            <td><input type="checkbox" name="softDelete" <?php if ($user->user_deleted) { ?> checked
+                                    <?php } ?> /></td>
                             <td>
                                 <input type="hidden" name="user_id" value="<?= $user->user_id; ?>" />
                                 <input type="submit" />

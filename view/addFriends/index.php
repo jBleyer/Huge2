@@ -40,7 +40,7 @@
                         <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
                         <?php $url = Config::get('URL') . 'addFriends/index/' ?>
 
-                        <form action="index.php/userId=<?= $user->user_id ?>" method="post">
+                        <form action="index/userId=<?= $user->user_id ?>" method="post">
                             <button name="befriend" type="submit" style="background-color: green;">befriend</button>
                         </form>
                     </td>
@@ -58,10 +58,11 @@
 <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB -->
 <?php
 
-echo "huaiuw";
-
-if (isset($_REQUEST['befriend'])) {
+if (
+    isset($_REQUEST['befriend'])
+) {
     echo "lmao";
+    //FriendModel::befriendUser($_GET['userId']);
 }
 /*if (isset($_SERVER['REQUEST_METHOD']) === 'POST') {
     //Hier sql statement

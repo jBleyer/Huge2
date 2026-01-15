@@ -22,6 +22,7 @@
                 </thead>
                 <?php foreach ($this->users as $user) { ?>
                 <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
+
                     <!-- <td><?= $user->user_id; ?></td>-->
                     <td class="avatar">
                         <?php if (isset($user->user_avatar_link)) { ?>
@@ -36,7 +37,12 @@
                     <!-- !TODO check if user is already a friend. If not, show them in this list -->
 
                     <td>
-                        <button name="delete" style="background-color: green;">befriend</button>
+                        <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
+                        <?php $url = Config::get('URL') . 'addFriends/index/' ?>
+
+                        <form action="index.php/userId=<?= $user->user_id ?>" method="post">
+                            <button name="befriend" type="submit" style="background-color: green;">befriend</button>
+                        </form>
                     </td>
                     <!-- <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>-->
                     <!-- <td>
@@ -48,3 +54,17 @@
         </div>
     </div>
 </div>
+
+<!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB -->
+<?php
+
+echo "huaiuw";
+
+if (isset($_REQUEST['befriend'])) {
+    echo "lmao";
+}
+/*if (isset($_SERVER['REQUEST_METHOD']) === 'POST') {
+    //Hier sql statement
+    echo "i need";
+    //FriendModel::befriendUser($user->user_id);
+}*/ ?>

@@ -17,41 +17,41 @@
                         <td>Avatar</td>
                         <td>Username</td>
                         <td>User's email</td>
-                        <td>Friend actions</td>
+                        <td>Actions</td>
                     </tr>
                 </thead>
                 <?php foreach ($this->users as $user) { ?>
 
-                <!-- checks if user is_friend is false, and shows them if false -->
-                <?php if ($user->is_friend == false) {
+                    <!-- checks if user is_friend is false, and shows them if false -->
+                    <?php if ($user->is_friend == false) {
                     ?>
-                <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
+                        <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
 
-                    <td class="avatar">
-                        <?php if (isset($user->user_avatar_link)) { ?>
-                        <a href="<?= Config::get('URL') . 'addFriends/showProfile/' . $user->user_id; ?>">
-                            <img src="<?= $user->user_avatar_link; ?>" /></a>
-                        <?php } ?>
-                    </td>
+                            <td class="avatar">
+                                <?php if (isset($user->user_avatar_link)) { ?>
+                                    <a href="<?= Config::get('URL') . 'addFriends/showProfile/' . $user->user_id; ?>">
+                                        <img src="<?= $user->user_avatar_link; ?>" /></a>
+                                <?php } ?>
+                            </td>
 
-                    <td><?= $user->user_name; ?></td>
-                    <td><?= $user->user_email; ?></td>
+                            <td><?= $user->user_name; ?></td>
+                            <td><?= $user->user_email; ?></td>
 
-                    <!-- !TODO check if user is already a friend. If not, show them in this list -->
+                            <!-- !TODO check if user is already a friend. If not, show them in this list -->
 
-                    <td>
-                        <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
+                            <td>
+                                <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
 
-                        <form action="index?userId=<?= $user->user_id ?>" method="post">
-                            <button name="befriend" type="submit" style="background-color: green;">befriend</button>
-                        </form>
-                    </td>
-                    <!-- <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>-->
-                    <!-- <td>
+                                <form action="index?userId=<?= $user->user_id ?>" method="post">
+                                    <button name="befriend" type="submit" style="background-color: green;">Hinzufügen</button>
+                                </form>
+                            </td>
+                            <!-- <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>-->
+                            <!-- <td>
                         <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Profile</a>
                     </td>-->
-                </tr>
-                <?php } ?>
+                        </tr>
+                    <?php } ?>
 
                 <?php } ?>
             </table>
@@ -71,5 +71,6 @@ if (
     //echo "lmao";
     $user_id = $_GET['userId'];
     FriendModel::befriendUser($user_id);
+    //echo '<a href="' . Config::get('URL') . 'profile/showProfile/' . $user->user_id . '"></a>';
 }
 ?>

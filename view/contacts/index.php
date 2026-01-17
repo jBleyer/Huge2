@@ -23,33 +23,33 @@
 
                 <?php foreach ($this->users as $user) { ?>
 
-                <!-- checks if user is_friend is true, and shows them if true -->
-                <?php if ($user->is_friend == true) {
+                    <!-- checks if user is_friend is true, and shows them if true -->
+                    <?php if ($user->is_friend == true) {
                     ?>
 
-                <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
-                    <!-- <td><?= $user->user_id; ?></td>-->
-                    <td class="avatar">
-                        <?php if (isset($user->user_avatar_link)) { ?>
-                        <a href="<?= Config::get('URL') . 'contacts/showProfile/' . $user->user_id; ?>">
-                            <img src="<?= $user->user_avatar_link; ?>" /></a>
-                        <?php } ?>
-                    </td>
-                    <td><?= $user->user_name; ?></td>
-                    <td><?= $user->user_email; ?></td>
-                    <td>
-                        <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
-                        <form action="index?userId=<?= $user->user_id ?>" method="post">
-                            <button name="unfriend" style="background-color: #df2a3c;">unfriend</button>
-                        </form>
+                        <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
+                            <!-- <td><?= $user->user_id; ?></td>-->
+                            <td class="avatar">
+                                <?php if (isset($user->user_avatar_link)) { ?>
+                                    <a href="<?= Config::get('URL') . 'contacts/showProfile/' . $user->user_id; ?>">
+                                        <img src="<?= $user->user_avatar_link; ?>" /></a>
+                                <?php } ?>
+                            </td>
+                            <td><?= $user->user_name; ?></td>
+                            <td><?= $user->user_email; ?></td>
+                            <td>
+                                <!-- If befriend button is pressed change the isFriend attribute to true, where the Profile id is in DB-->
+                                <form action="index?userId=<?= $user->user_id ?>" method="post">
+                                    <button name="unfriend" style="background-color: #df2a3c;">Entfernen</button>
+                                </form>
 
-                    </td>
-                    <!-- <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>-->
-                    <!-- <td>
+                            </td>
+                            <!-- <td><?= ($user->user_active == 0 ? 'No' : 'Yes'); ?></td>-->
+                            <!-- <td>
                         <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Profile</a>
                     </td>-->
-                </tr>
-                <?php } ?>
+                        </tr>
+                    <?php } ?>
                 <?php } ?>
             </table>
         </div>

@@ -21,6 +21,10 @@
                     </tr>
                 </thead>
                 <?php foreach ($this->users as $user) { ?>
+
+                <!-- checks if user is_friend is false, and shows them if false -->
+                <?php if ($user->is_friend == false) {
+                    ?>
                 <tr class="<?= ($user->user_active == 0 ? 'inactive' : 'active'); ?>">
 
                     <td class="avatar">
@@ -47,6 +51,8 @@
                         <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Profile</a>
                     </td>-->
                 </tr>
+                <?php } ?>
+
                 <?php } ?>
             </table>
         </div>

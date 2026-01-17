@@ -39,12 +39,6 @@
                     <a href="<?php echo Config::get('URL'); ?>dashboard/index">Dashboard</a>
                 </li>
 
-                <li <?php if (View::checkForActiveController($filename, "note")) {
-                        echo ' class="active" ';
-                    } ?>>
-                    <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
-                </li>
-
                 <!-- new navigation item for my contact list for logged in users -->
                 <li <?php if (View::checkForActiveController($filename, "contacts")) {
                         echo ' class="active" ';
@@ -57,6 +51,13 @@
                         echo ' class="active" ';
                     } ?>>
                     <a href="<?php echo Config::get('URL'); ?>addFriends/index">Add as Friends</a>
+                </li>
+
+                <!-- new navigation item for my addFriends list for logged in users -->
+                <li <?php if (View::checkForActiveController($filename, "chat")) {
+                        echo ' class="active" ';
+                    } ?>>
+                    <a href="<?php echo Config::get('URL'); ?>chat/index">Chat</a>
                 </li>
 
 

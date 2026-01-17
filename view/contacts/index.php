@@ -23,6 +23,7 @@
 
                 <?php foreach ($this->users as $user) { ?>
 
+                <!-- checks if user is_friend is true, and shows them if true -->
                 <?php if ($user->is_friend == true) {
                     ?>
 

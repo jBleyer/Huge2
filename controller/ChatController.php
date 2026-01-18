@@ -33,11 +33,11 @@ class ChatController extends Controller
      * Shows the (public) details of the selected user.
      * @param $user_id int id the the user
      */
-    public function showProfile($user_id)
+    public function chat($user_id)
     {
         if (isset($user_id)) {
             $this->View->render(
-                'contacts/showProfile',
+                'chat/chat',
                 array(
                     'user' => UserModel::getPublicProfileOfUser($user_id)
                 )

@@ -10,6 +10,7 @@
 
         <?php if ($this->user) { ?>
             <div>
+
                 <section class="discussion">
 
                     <div class="bubble sender first">Hello</div>
@@ -31,12 +32,17 @@
                         elements together, but I don't want to ...</div>
                     <div class="bubble sender last">I think it's more transparent and easier to group .bubble elements in
                         the same parent.</div>
-
+                    <p>
+                        <!-- User controller here!-->
+                        <!--<?= $this->user_name; ?>-->
+                    </p>
                 </section>
-                <form>
-                    <input type="text">
-                    <button type="submit">Send</button>
-                </form>
+
+
+                <!-- Get your own user ID-->
+
+
+
 
 
 
@@ -67,7 +73,28 @@
                     </tbody>
                 </table>-->
             </div>
+            <div>
+                <form action="/huge/huge-3.3.1/chat/chat/<?= $this->user->user_id ?>" method="post">
+                    <input type="text">
+                    <button type="submit" name="submit">Send</button>
+                </form>
+            </div>
         <?php } ?>
 
     </div>
 </div>
+
+<?php
+
+$user_id = '';
+
+if (
+    isset($_REQUEST['submit'])
+) {
+    echo "lmao";
+    $person1_user_id = Session::get('user_id');
+    $person2_user_id = $this->user->user_id;
+    echo $person2_user_id . $person1_user_id;
+    //FriendModel::befriendUser($user_id);
+}
+?>

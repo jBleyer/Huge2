@@ -75,7 +75,7 @@
             </div>
             <div>
                 <form action="/huge/huge-3.3.1/chat/chat/<?= $this->user->user_id ?>" method="post">
-                    <input type="text">
+                    <input type="text" name="message" id="message">
                     <button type="submit" name="submit">Send</button>
                 </form>
             </div>
@@ -94,7 +94,9 @@ if (
     echo "lmao";
     $person1_user_id = Session::get('user_id');
     $person2_user_id = $this->user->user_id;
-    echo $person2_user_id . $person1_user_id;
+    $message = $_POST['message'];
+    //echo $person2_user_id . $person1_user_id . $message;
     //FriendModel::befriendUser($user_id);
+    ChatModel::insertMessagesToDatabase($person1_user_id, $person2_user_id, $message);
 }
 ?>

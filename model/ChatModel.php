@@ -7,6 +7,26 @@
  */
 class ChatModel
 {
+
+    public static function insertMessagesToDatabase($person1_user_id, $person2_user_id, $message)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("INSERT INTO messages (person1_user_id, person2_user_id, message) VALUES (:person1_user_id, :person2_user_id, :message)");
+        $query->execute(array(
+
+            ':person1_user_id' => $person1_user_id,
+            ':person2_user_id' => $person2_user_id,
+            ':message' => $message
+
+        ));
+
+        if ($query->rowCount() == 1) {
+            return true;
+        }
+
+        return false;
+    }
     /**
      * Upgrades / downgrades the user's account. Currently it's just the field user_account_type in the database that
      * can be 1 or 2 (maybe "basic" or "premium"). Put some more complex stuff in here, maybe a pay-process or whatever

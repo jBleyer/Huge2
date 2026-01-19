@@ -5,82 +5,42 @@
         <!-- echo out the system feedback (error and success messages) -->
         <?php $this->renderFeedbackMessages(); ?>
 
-        <h3>What happens here ?</h3>
-        <div>This controller/action/view shows all public information about a certain user.</div>
+        <div class="chatbox"
+            style="border: 1px black solid; padding: 10px; height: 400px; width: 400px; overflow-y: scroll; margin-bottom: 10px; margin-left: 30% ;">
+            <section class="discussion">
 
-        <?php if ($this->user) { ?>
-            <div>
+                <!-- ??? -->
+                <?php if ($this->message) { ?>
 
-                <section class="discussion">
+                    <!-- output all messages -->
+                    <?php foreach ($this->message as $message) { ?>
 
-                    <div class="bubble sender first">Hello</div>
-                    <div class="bubble sender last">This is a CSS demo of the Messenger chat bubbles, that merge when
-                        stacked together.</div>
+                        <!-- check if P1 in db is the same as current user -->
+                        <?php if ($message->person1_user_id == $_SESSION['user_id']) { ?>
+                            <div class="bubble sender first"><?php echo $message->message; ?></div>
 
-                    <div class="bubble recipient first">Oh that's cool!</div>
-                    <div class="bubble recipient last">Did you use JavaScript to perform that kind of effect?</div>
+                        <?php } else { ?>
 
-                    <div class="bubble sender first">No, that's full CSS3!</div>
-                    <div class="bubble sender middle">Take a look to the 'JS' section of this Pen... it's empty! 😃</div>
-                    <div class="bubble sender last">And it's also really lightweight!</div>
+                            <!-- everything else gets the recipient class -->
+                            <div class="bubble recipient first"><?php echo $message->message; ?></div>
+                        <?php } ?>
 
-                    <div class="bubble recipient">Dope!</div>
+                    <?php } ?>
 
-                    <div class="bubble sender first">Yeah, but I still didn't succeed to get rid of these stupid .first and
-                        .last classes.</div>
-                    <div class="bubble sender middle">The only solution I see is using JS, or a &lt;div&gt; to group
-                        elements together, but I don't want to ...</div>
-                    <div class="bubble sender last">I think it's more transparent and easier to group .bubble elements in
-                        the same parent.</div>
-                    <p>
-                        <!-- User controller here!-->
-                        <!--<?= $this->user_name; ?>-->
-                    </p>
-                </section>
+                <?php  } ?>
 
+            </section>
 
-                <!-- Get your own user ID-->
+        </div>
 
 
 
-
-
-
-
-
-                <!--<table class="overview-table">
-                    <thead>
-                        <tr>
-                            <td>Id</td>
-                            <td>Avatar</td>
-                            <td>Username</td>
-                            <td>User's email</td>
-                            <td>Activated ?</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="<?= ($this->user->user_active == 0 ? 'inactive' : 'active'); ?>">
-                            <td><?= $this->user->user_id; ?></td>
-                            <td class="avatar">
-                                <?php if (isset($this->user->user_avatar_link)) { ?>
-                                    <img src="<?= $this->user->user_avatar_link; ?>" />
-                                <?php } ?>
-                            </td>
-                            <td><?= $this->user->user_name; ?></td>
-                            <td><?= $this->user->user_email; ?></td>
-                            <td><?= ($this->user->user_active == 0 ? 'No' : 'Yes'); ?></td>
-                        </tr>
-                    </tbody>
-                </table>-->
-            </div>
-            <div>
-                <form action="/huge/huge-3.3.1/chat/chat/<?= $this->user->user_id ?>" method="post">
-                    <input type="text" name="message" id="message">
-                    <button type="submit" name="submit">Send</button>
-                </form>
-            </div>
-        <?php } ?>
-
+    </div>
+    <div style="margin-left: 40%;">
+        <form action="/huge/huge-3.3.1/chat/chat/<?= $this->user->user_id ?>" method="post">
+            <input type="text" name="message" id="message">
+            <button type="submit" name="submit">Send</button>
+        </form>
     </div>
 </div>
 

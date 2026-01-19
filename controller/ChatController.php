@@ -27,7 +27,6 @@ class ChatController extends Controller
     }
 
 
-// I will only modify one (1!) showProfile in contacts/showProfile (I have the original in ProfileController/showProfile)
     /**
      * This method controls what happens when you move to /contacts/showProfile in your app.
      * Shows the (public) details of the selected user.
@@ -39,7 +38,8 @@ class ChatController extends Controller
             $this->View->render(
                 'chat/chat',
                 array(
-                    'user' => UserModel::getPublicProfileOfUser($user_id)
+                    'user' => UserModel::getPublicProfileOfUser($user_id),
+                    'message' => ChatModel::getMessagesFromDatabase(Session::get('user_id'), $user_id),
                 )
             );
         } else {

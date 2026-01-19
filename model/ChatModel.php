@@ -14,7 +14,6 @@ class ChatModel
 
         $query = $database->prepare("INSERT INTO messages (person1_user_id, person2_user_id, message) VALUES (:person1_user_id, :person2_user_id, :message)");
         $query->execute(array(
-
             ':person1_user_id' => $person1_user_id,
             ':person2_user_id' => $person2_user_id,
             ':message' => $message
@@ -27,6 +26,28 @@ class ChatModel
 
         return false;
     }
+
+    public static function getMessagesFromDatabase($person1_user_id, $person2_user_id,)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = 'SELECT person1_user_id, message, person2_user_id FROM messages 
+        WHERE person1_user_id = :person1_user_id AND person2_user_id = :person2_user_id 
+        OR (person1_user_id = :person2_user_id AND person2_user_id = :person1_user_id)
+        ORDER BY timestamp ASC';
+
+        $statement = $database->prepare($sql);
+
+        $statement->bindParam(':person1_user_id', $person1_user_id);
+        $statement->bindParam(':person2_user_id', $person2_user_id);
+
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+
+
     /**
      * Upgrades / downgrades the user's account. Currently it's just the field user_account_type in the database that
      * can be 1 or 2 (maybe "basic" or "premium"). Put some more complex stuff in here, maybe a pay-process or whatever

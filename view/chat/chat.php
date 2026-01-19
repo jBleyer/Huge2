@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <div class="container">
     <h1>Chatting with <?= $this->user->user_name; ?></h1>
     <div class="box">
@@ -46,17 +50,19 @@
 
 <?php
 
+
 $user_id = '';
 
 if (
     isset($_REQUEST['submit'])
 ) {
-    echo "lmao";
     $person1_user_id = Session::get('user_id');
     $person2_user_id = $this->user->user_id;
     $message = $_POST['message'];
     //echo $person2_user_id . $person1_user_id . $message;
     //FriendModel::befriendUser($user_id);
     ChatModel::insertMessagesToDatabase($person1_user_id, $person2_user_id, $message);
+    //Refresh page when message sent
+    echo '<script>window.location.href = "' . Config::get('URL') . 'chat/chat/' . $this->user->user_id . '";</script>';
 }
 ?>

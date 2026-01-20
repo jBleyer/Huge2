@@ -46,7 +46,35 @@ class ChatModel
         return $statement->fetchAll();
     }
 
+    public static function setNotifications($user_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
 
+        $query = $database->prepare("UPDATE users SET notifications = notifications + 1 WHERE user_id = :user_id LIMIT 1");
+        $query->execute(array(
+            ':user_id' => $user_id
+        ));
+
+        if ($query->rowCount() == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function resetNotifications($user_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $database->prepare("UPDATE users SET notifications = 0 WHERE user_id = :user_id LIMIT 1");
+        $query->execute(array(
+            ':user_id' => $user_id
+        ));
+
+        if ($query->rowCount() == 1) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Upgrades / downgrades the user's account. Currently it's just the field user_account_type in the database that

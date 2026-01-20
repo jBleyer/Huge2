@@ -1,5 +1,7 @@
 <?php
 
+ChatModel::resetNotifications($this->user->user_id);
+
 ?>
 
 <div class="container">
@@ -56,12 +58,16 @@ $user_id = '';
 if (
     isset($_REQUEST['submit'])
 ) {
+    //get person1 id, person2 id and message
     $person1_user_id = Session::get('user_id');
     $person2_user_id = $this->user->user_id;
     $message = $_POST['message'];
-    //echo $person2_user_id . $person1_user_id . $message;
-    //FriendModel::befriendUser($user_id);
+
     ChatModel::insertMessagesToDatabase($person1_user_id, $person2_user_id, $message);
+
+    //notifications are to be counted for in person2 when message is sent
+    ChatModel::setNotifications($person2_user_id);
+
     //Refresh page when message sent
     echo '<script>window.location.href = "' . Config::get('URL') . 'chat/chat/' . $this->user->user_id . '";</script>';
 }

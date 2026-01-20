@@ -75,6 +75,7 @@ class ChatModel
             ':person2_user_id' => $person2_user_id
         ));
 
+        //Update table if conversation between p1 und p2 already exists
         if ($checkQuery->rowCount() > 0) {
 
             $query = $database->prepare("UPDATE notifications SET notification_count = notification_count + 1 WHERE sender = :person1_user_id AND receiver = :person2_user_id LIMIT 1");
@@ -94,13 +95,14 @@ class ChatModel
         return $query->rowCount() == 1;
     }
 
-    public static function resetNotifications($user_id)
+    public static function resetNotifications($person1_user_id, $person2_user_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("UPDATE users SET notifications = 0 WHERE user_id = :user_id LIMIT 1");
+        $query = $database->prepare("UPDATE notifications SET notification_count = 0 WHERE sender = :sender AND receiver = :receiver LIMIT 1");
         $query->execute(array(
-            ':user_id' => $user_id
+            ':sender' => $person1_user_id,
+            ':receiver' => $person2_user_id
         ));
 
         if ($query->rowCount() == 1) {

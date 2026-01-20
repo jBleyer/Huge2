@@ -1,7 +1,8 @@
 <?php
-/*if (isset($this->user->user_id)) {
-    ChatModel::resetNotifications($this->user->user_id);
-}*/
+
+//remove notifications when user gets on chat page
+//I give up to understand why person 2 is first and the logged in user is second
+ChatModel::resetNotifications($this->user->user_id, Session::get('user_id'));
 
 ?>
 

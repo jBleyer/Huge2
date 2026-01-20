@@ -8,6 +8,24 @@
 class ChatModel
 {
 
+    public static function getNotifications($person1_user_id, $person2_user_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = 'SELECT notification_count FROM notifications 
+        WHERE sender = :person2_user_id AND receiver = :person1_user_id
+        LIMIT 1';
+
+        $statement = $database->prepare($sql);
+
+        $statement->bindParam(':person1_user_id', $person1_user_id);
+        $statement->bindParam(':person2_user_id', $person2_user_id);
+
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
+
     public static function insertMessagesToDatabase($person1_user_id, $person2_user_id, $message)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -46,19 +64,34 @@ class ChatModel
         return $statement->fetchAll();
     }
 
-    public static function setNotifications($user_id)
+    public static function setNotifications($person1_user_id, $person2_user_id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("UPDATE users SET notifications = notifications + 1 WHERE user_id = :user_id LIMIT 1");
-        $query->execute(array(
-            ':user_id' => $user_id
+        // Check if record exists
+        $checkQuery = $database->prepare("SELECT * FROM notifications WHERE sender = :person1_user_id AND receiver = :person2_user_id LIMIT 1");
+        $checkQuery->execute(array(
+            ':person1_user_id' => $person1_user_id,
+            ':person2_user_id' => $person2_user_id
         ));
 
-        if ($query->rowCount() == 1) {
-            return true;
+        if ($checkQuery->rowCount() > 0) {
+
+            $query = $database->prepare("UPDATE notifications SET notification_count = notification_count + 1 WHERE sender = :person1_user_id AND receiver = :person2_user_id LIMIT 1");
+            $query->execute(array(
+                ':person1_user_id' => $person1_user_id,
+                ':person2_user_id' => $person2_user_id
+            ));
+        } else {
+
+            // Record doesn't exist, insert it
+            $query = $database->prepare("INSERT INTO notifications (sender, receiver, notification_count) VALUES (:person1_user_id, :person2_user_id, 1)");
+            $query->execute(array(
+                ':person1_user_id' => $person1_user_id,
+                ':person2_user_id' => $person2_user_id
+            ));
         }
-        return false;
+        return $query->rowCount() == 1;
     }
 
     public static function resetNotifications($user_id)

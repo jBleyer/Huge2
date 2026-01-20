@@ -1,6 +1,7 @@
 <?php
-
-ChatModel::resetNotifications($this->user->user_id);
+/*if (isset($this->user->user_id)) {
+    ChatModel::resetNotifications($this->user->user_id);
+}*/
 
 ?>
 
@@ -39,8 +40,6 @@ ChatModel::resetNotifications($this->user->user_id);
 
         </div>
 
-
-
     </div>
     <div style="margin-left: 40%;">
         <form action="/huge/huge-3.3.1/chat/chat/<?= $this->user->user_id ?>" method="post">
@@ -65,8 +64,8 @@ if (
 
     ChatModel::insertMessagesToDatabase($person1_user_id, $person2_user_id, $message);
 
-    //notifications are to be counted for in person2 when message is sent
-    ChatModel::setNotifications($person2_user_id);
+    //notifications inserted in extra table 
+    ChatModel::setNotifications($person1_user_id, $person2_user_id);
 
     //Refresh page when message sent
     echo '<script>window.location.href = "' . Config::get('URL') . 'chat/chat/' . $this->user->user_id . '";</script>';

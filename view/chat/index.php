@@ -35,19 +35,21 @@
                             <a href="<?= Config::get('URL') . 'chat/chat/' . $user->user_id; ?>">chat</a>
 
                             <!-- Check for notifications -->
-                            <?php if ($user->notifications > 0) { ?>
+                            <!--User 1 = session: and user 2 = user->id fro-->
+                            <?php $notifications = ChatModel::getNotifications(Session::get('user_id'), $user->user_id);
 
+                            //can also be placed in the model function and echo'd i supposed
+                            if ($notifications > 0) { ?>
                                 <span
-                                    style="margin: 5px; padding: 5px;padding-left:7px;padding-right:7px; border-radius: 25px; background-color: #dc2020;">
-                                    <?= $user->notifications; ?>
+                                    style="margin: 5px; padding: 5px; padding-left:7px; padding-right:7px; border-radius: 25px; background-color: #dc2020;">
+                                    <?= $notifications; ?>
                                 </span>
+
                             <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
             </table>
-
-
         </div>
     </div>
 </div>

@@ -1,4 +1,12 @@
 <?php
+require_once 'recaptchalib.php';
+
+$secret = '6Lcr61MsAAAAAJr_MsseYlJLqSQ4J6RrLpt-4u7y'; // your secret key
+
+//Object creation
+$recapObj = new ReCaptcha($secret);
+
+
 
 /**
  * Class RegistrationModel

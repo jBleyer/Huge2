@@ -99,7 +99,7 @@ class ChatModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("UPDATE notifications SET notification_count = 0 WHERE sender = :sender AND receiver = :receiver LIMIT 1");
+        $query = $database->prepare("CALL reset_notification_count(:sender, :receiver)");
         $query->execute(array(
             ':sender' => $person1_user_id,
             ':receiver' => $person2_user_id

@@ -25,12 +25,12 @@ ChatModel::resetNotifications($this->user->user_id, Session::get('user_id'));
 
                         <!-- check if P1 in db is the same as current user -->
                         <?php if ($message->person1_user_id == $_SESSION['user_id']) { ?>
-                            <div class="bubble sender first"><?php echo $message->message; ?></div>
+                            <div class="bubble recipient first"><?php echo $message->message; ?></div>
 
                         <?php } else { ?>
 
                             <!-- everything else gets the recipient class -->
-                            <div class="bubble recipient first"><?php echo $message->message; ?></div>
+                            <div class="bubble sender first"><?php echo $message->message; ?></div>
                         <?php } ?>
 
                     <?php } ?>

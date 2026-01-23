@@ -45,12 +45,7 @@ class ChatModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = 'SELECT person1_user_id, message, person2_user_id FROM messages 
-        WHERE person1_user_id = :person1_user_id AND person2_user_id = :person2_user_id 
-        OR (person1_user_id = :person2_user_id AND person2_user_id = :person1_user_id)
-        ORDER BY timestamp ASC';
-
-        $statement = $database->prepare($sql);
+        $statement = $database->prepare('CALL get_messages(:person1_user_id, :person2_user_id)');
 
         $statement->bindParam(':person1_user_id', $person1_user_id);
         $statement->bindParam(':person2_user_id', $person2_user_id);
@@ -65,7 +60,7 @@ class ChatModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         // Check if record exists
-        $checkQuery = $database->prepare("SELECT * FROM notifications WHERE sender = :person1_user_id AND receiver = :person2_user_id LIMIT 1");
+        $checkQuery = $database->prepare('CALL get_messages(:person1_user_id, :person2_user_id)');
         $checkQuery->execute(array(
             ':person1_user_id' => $person1_user_id,
             ':person2_user_id' => $person2_user_id

@@ -12,11 +12,7 @@ class ChatModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = 'SELECT notification_count FROM notifications 
-        WHERE sender = :person2_user_id AND receiver = :person1_user_id
-        LIMIT 1';
-
-        $statement = $database->prepare($sql);
+        $statement = $database->prepare('CALL get_notification_count(:person2_user_id, :person1_user_id)');
 
         $statement->bindParam(':person1_user_id', $person1_user_id);
         $statement->bindParam(':person2_user_id', $person2_user_id);
